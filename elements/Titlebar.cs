@@ -56,14 +56,24 @@ namespace gdtools_cpp {
                     cB("Close", _w.CloseWindow)
                 })) this.Children.Add(x);
 
-                Elem.Header title = new Elem.Header(_w.Name.Replace("_", " "));
+                Elem.Text title = new Elem.Text(_w.Name.Replace("_", " "));
 
                 title.HorizontalAlignment = HorizontalAlignment.Center;
                 title.VerticalAlignment = VerticalAlignment.Center;
                 title.FontSize = Theme.Const.Titlebar.Height / 2;
                 title.Foreground = Theme.Colors.TitlebarText;
+                title.Margin = new Thickness(0);
 
                 this.Children.Add(title);
+
+                Viewbox v = new Viewbox();
+                v.Width = v.Height = Theme.Const.Titlebar.Height / 1.5;
+                v.Child = Theme.LoadIcon("Home", Theme.Colors.TitlebarText, 35);
+                v.HorizontalAlignment = HorizontalAlignment.Left;
+                v.VerticalAlignment = VerticalAlignment.Center;
+                v.Margin = new Thickness(Theme.Const.Titlebar.Height / 2 - v.Width / 2, 0, 0, 0);
+
+                this.Children.Add(v);
             }
         }
     }

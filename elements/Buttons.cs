@@ -61,9 +61,20 @@ namespace gdtools_cpp {
                 }
                 if (_click != null) this.Click += _click;
 
-                this.InitStyle(Theme.Colors.Text, Theme.Colors.ButtonBG, Theme.Colors.ButtonBGHover, Theme.Const.BorderSize);
+                this.Padding = Theme.Const.Button.Padding;
+                this.HorizontalAlignment = Settings.Alignment;
+
+                this.InitStyle(
+                    Theme.Colors.Text,
+                    Theme.Colors.ButtonBG,
+                    Theme.Colors.ButtonBGHover,
+                    Theme.Const.BorderSize,
+                    HorizontalAlignment.Center,
+                    this.Padding
+                );
 
                 this.Style = this.__Style;
+                this.Margin = Theme.Const.Margin;
             }
         }
         
@@ -91,6 +102,7 @@ namespace gdtools_cpp {
                 SolidColorBrush IconHover = Theme.ColorArrays.IconColors[_c];
 
                 text = new Elem.Text(_text, (uint)(Theme.Const.Browser.TabHeight / 2.5));
+                text.Margin = new Thickness(0);
                 if (_icon != null) {
                     StackPanel p = new StackPanel();
                     p.Orientation = Orientation.Horizontal;
@@ -157,14 +169,20 @@ namespace gdtools_cpp {
             }
             public delegate void CheckEventHandler(object sender, CheckEventArgs e);
 
+            public static class C {
+                public static Brush Selected = Theme.Colors.ButtonBG;
+                public static Brush SelectedHover = Theme.Colors.ButtonBGHover;
+                public static Brush BG = Theme.Colors.Dark;
+                public static Brush BGHover = Theme.Colors.Light;
+            }
+
             public Checkbox(string _text = "", bool _select = false, CheckEventHandler _click = null) {
-                StackPanel contents = new StackPanel();
-                contents.Orientation = Orientation.Horizontal;
+                Grid contents = new Grid();
 
                 Box = new Border();
                 Box.Width = Box.Height = Theme.Const.Checkbox.Size;
                 Box.CornerRadius = Theme.Const.Checkbox.CornerRadius;
-                Box.Background = _select ? Theme.Colors.Main : Theme.Colors.Dark;
+                Box.Background = _select ? C.Selected : C.BG;
 
                 this.Selected = _select;
 
@@ -173,40 +191,60 @@ namespace gdtools_cpp {
 
                 Viewbox v = new Viewbox();
                 v.Width = v.Height = Theme.Const.Checkbox.Size / Theme.Const.Checkbox.TickRatio;
-                v.HorizontalAlignment = HorizontalAlignment.Center;
                 v.VerticalAlignment = VerticalAlignment.Center;
                 v.Child = Tick;
                 v.Margin = new Thickness(Box.Width / 2 - v.Width / 2);
 
                 Box.Child = v;
+                Box.HorizontalAlignment = HorizontalAlignment.Left;
+
+                Grid vv = new Grid();
+                vv.HorizontalAlignment = HorizontalAlignment.Stretch;
+                vv.VerticalAlignment = VerticalAlignment.Stretch;
+
+                /*
+                uint marg = Settings.Alignment == HorizontalAlignment.Center ?
+                    Theme.Const.Checkbox.Margin * 5 :
+                    Theme.Const.Checkbox.Margin
+                    + (uint)Theme.Const.Checkbox.Size;      //*/
+
+                vv.Margin = new Thickness(Theme.Const.Checkbox.Margin + (uint)Theme.Const.Checkbox.Size, 0, 0, 0);
 
                 Elem.Text t = new Elem.Text(_text);
-                t.Margin = Theme.Const.Checkbox.Margin;
+                t.Margin = new Thickness(0);
+                t.VerticalAlignment = VerticalAlignment.Center;
+                t.HorizontalAlignment = HorizontalAlignment.Left;
+
+                vv.Children.Add(t);
 
                 contents.Children.Add(Box);
-                contents.Children.Add(t);
+                contents.Children.Add(vv);
+
+                contents.HorizontalAlignment = HorizontalAlignment.Stretch;
 
                 this.Content = contents;
+                this.HorizontalAlignment = Settings.Alignment == HorizontalAlignment.Center ? HorizontalAlignment.Stretch : Settings.Alignment;
+                this.Margin = Theme.Const.Margin;
 
                 this.MouseEnter += (s, e) => {
                     if (this.Selected)
-                        Box.Background = Theme.Colors.Secondary;
-                    else Box.Background = Theme.Colors.Light;
+                        Box.Background = C.SelectedHover;
+                    else Box.Background = C.BGHover;
                 };
                 this.MouseLeave += (s, e) => {
                     if (this.Selected)
-                        Box.Background = Theme.Colors.Main;
-                    else Box.Background = Theme.Colors.Dark;
+                        Box.Background = C.Selected;
+                    else Box.Background = C.BG;
                 };
             
                 this.MouseDown += (s, e) => {
                     this.Selected = !this.Selected;
 
                     if (this.Selected) {
-                        Box.Background = Theme.Colors.Secondary;
+                        Box.Background = C.SelectedHover;
                         Tick.Visibility = Visibility.Visible;
                     } else {
-                        Box.Background = Theme.Colors.Light;
+                        Box.Background = C.BGHover;
                         Tick.Visibility = Visibility.Hidden;
                     }
 

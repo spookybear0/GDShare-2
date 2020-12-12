@@ -71,9 +71,10 @@ namespace gdtools_cpp {
             int ix = 0;
             foreach (TabType t in new TabType[] {
                 new TabType { Name = "Home", Icon = Theme.LoadIcon("Home", Theme.Colors.BrowserIcon), Page = new Pages.Home(_w) },
-                new TabType { Name = "Sharing", Icon = Theme.LoadIcon("Share", Theme.Colors.BrowserIcon), Page = new Pages.None(_w) },
+                new TabType { Name = "Sharing", Icon = Theme.LoadIcon("Share", Theme.Colors.BrowserIcon), Page = new Pages.Sharing(_w) },
                 new TabType { Name = "Backups", Icon = Theme.LoadIcon("Backup", Theme.Colors.BrowserIcon), Page = new Pages.None(_w) },
                 new TabType { Name = "Collab", Icon = Theme.LoadIcon("Collab", Theme.Colors.BrowserIcon), Page = new Pages.None(_w) },
+                new TabType { Name = "Live", Icon = Theme.LoadIcon("Live", Theme.Colors.BrowserIcon), Page = new Pages.None(_w) },
                 new TabType { Name = "External", Icon = Theme.LoadIcon("Hack", Theme.Colors.BrowserIcon), Page = new Pages.None(_w) },
                 new TabType { IsBottomSplit = true },
                 new TabType { Name = "About", Icon = Theme.LoadIcon("About", Theme.Colors.BrowserIcon), Page = new Pages.None(_w) },
@@ -89,6 +90,8 @@ namespace gdtools_cpp {
 
                         c.Children.Clear();
                         c.Children.Add(t.Page);
+
+                        t.Page.Load();
                     };
 
                     targ.Children.Add(bt);

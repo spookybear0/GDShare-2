@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -10,31 +11,32 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 
 namespace gdtools_cpp {
-    public static class Userdata {
-        public class UserdataType {
-            public static class Window {
-                public static Size Size;
-                public static bool IsTransparent;
-            }
+    public class Userdata {
+        public class DataT {
+            public Size WindowSize { get; set; }
+            public bool IsTransparent { get; set; } = true;
+            public bool SaveWindowState { get; set; } = true;
+            public bool CenterContent { get; set; } = true;
         }
 
-        public static UserdataType Data;
-        public static bool Loaded = false;
-        public static string UserdataPath = Settings.UserdataName + "." + Settings.Ext.Data;
+        public DataT Data;
+        public bool Loaded = false;
+        public string UserdataPath = Settings.UserdataName + "." + Settings.Ext.Data;
 
-        public static bool LoadData() {
+        public void LoadData() {
             if (System.IO.File.Exists(UserdataPath)) {
                 string data = System.IO.File.ReadAllText(UserdataPath);
                 
                 if (data.StartsWith("::GDTools User::\n")) {
-                    Data = JsonSerializer.Deserialize<UserdataType>(data.Substring(data.IndexOf("\n") + 1));
+                    Data = JsonSerializer.Deserialize<DataT>(data.Substring(data.IndexOf("\n") + 1));
                     Loaded = true;
-                    return true;
-                } else return false;
-            } else return false;
+
+                    Settings.Alignment = Data.CenterContent ? HorizontalAlignment.Center : HorizontalAlignment.Left;
+                } else Data = new DataT();
+            } else Data = new DataT();
         }
 
-        public static void SaveData() {
+        public void SaveData() {
             System.IO.File.WriteAllText(UserdataPath, $"::GDTools User::\n{JsonSerializer.Serialize(Data)}");
         }
     }
@@ -71,20 +73,26 @@ namespace gdtools_cpp {
             _wc.Initialize(this);
 
             this.Title = _wc.Name.Replace("_", " ");
-            this.Width = _wc.Size.Width;
-            this.Height = _wc.Size.Height;
+            if (App.Userdata.Loaded && _wc.Name == Settings.AppName && App.Userdata.Data.SaveWindowState) {
+                this.Width = App.Userdata.Data.WindowSize.Width;
+                this.Height = App.Userdata.Data.WindowSize.Height;
+            } else {
+                this.Width = _wc.Size.Width;
+                this.Height = _wc.Size.Height;
+            }
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            if (Userdata.Loaded && !Userdata.UserdataType.Window.IsTransparent) {
+            if (App.Userdata.Loaded && !App.Userdata.Data.IsTransparent) {
                 this.AllowsTransparency = false;
                 Contents.Global.Titlebar.Visibility = Visibility.Hidden;
                 Contents.Global.Main.Margin = new Thickness(0);
             } else {
                 this.WindowStyle = WindowStyle.None;
                 this.AllowsTransparency = true;
+                this.ResizeMode = ResizeMode.CanResizeWithGrip;
             }
             this.Background = new SolidColorBrush(Colors.Transparent);
             this.SizeChanged += (s, e) =>
-                this.BorderThickness = this.WindowState == WindowState.Maximized ? new Thickness(8) : new Thickness(0);
+                this.BorderThickness = this.WindowState == WindowState.Maximized ? new Thickness(7) : new Thickness(0);
 
             BitmapImage bi3 = new BitmapImage();
             bi3.BeginInit();
@@ -95,9 +103,9 @@ namespace gdtools_cpp {
             this.Content = _wc.Global;
 
             this.Closing += (s, e) => {
-                Userdata.UserdataType.Window.Size = new Size(this.Width, this.Height);
+                App.Userdata.Data.WindowSize = new Size(this.Width, this.Height);
 
-                Userdata.SaveData();
+                App.Userdata.SaveData();
             };
 
             this.Loaded += (s, e) => this.EnableBlur();

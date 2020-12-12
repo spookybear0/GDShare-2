@@ -7,10 +7,13 @@ using System.Windows.Media.Imaging;
 namespace gdtools_cpp {
     namespace Elem {
         public class Text : TextBlock {
-            public Text(string _text = "", uint _size = 0) {
+            public Text(string _text = "", uint _size = 0, Brush _c = null) {
                 this.Text = _text;
-                this.Foreground = Theme.Colors.Text;
+                this.Foreground = _c == null ? Theme.Colors.Text : _c;
+                this.VerticalAlignment = VerticalAlignment.Center;
+                this.HorizontalAlignment = Settings.Alignment;
                 this.FontSize = _size > 0 ? _size : Theme.Const.Text.Size;
+                this.Margin = Theme.Const.Margin;
             }
         }
 
@@ -20,11 +23,13 @@ namespace gdtools_cpp {
                 this.Foreground = Theme.Colors.Text;
                 this.FontWeight = FontWeights.Bold;
                 this.FontSize = Theme.Const.Text.HeaderSize;
+                this.HorizontalAlignment = Settings.Alignment;
             }
 
             public Header(UIElement[] _elems) {
                 this.FontWeight = FontWeights.Bold;
                 this.FontSize = Theme.Const.Text.HeaderSize;
+                this.HorizontalAlignment = Settings.Alignment;
 
                 StackPanel s = new StackPanel();
                 s.Orientation = Orientation.Horizontal;
@@ -62,7 +67,7 @@ namespace gdtools_cpp {
         }
 
         public class Img : Image {
-            public Img(string _src = "", uint _w = 0, uint _h = 0, Aligns _a = Aligns.Left) {
+            public Img(string _src = "", uint _w = 0, uint _h = 0, HorizontalAlignment? _a = null) {
                 if (!_src.Contains("\\") && !_src.Contains("/"))
                     _src = $"resources\\Images\\{_src}";
 
@@ -71,7 +76,7 @@ namespace gdtools_cpp {
                 bi3.UriSource = new Uri(_src, UriKind.RelativeOrAbsolute);
                 bi3.EndInit();
 
-                this.HorizontalAlignment = Elem.Align.Get(_a);
+                this.HorizontalAlignment = (_a is HorizontalAlignment) ? (HorizontalAlignment)_a : Settings.Alignment;
 
                 this.Stretch = Stretch.Fill;
                 if (_w > 0)

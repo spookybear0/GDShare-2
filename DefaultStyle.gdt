@@ -8,6 +8,7 @@ Author=HJfod
 BGDark              222222
 BGDarker            111111,230
 Dark                555555
+Darker              333333
 Light               777777
 Main                44aaff
 Secondary           ff55bb
@@ -19,13 +20,16 @@ TitlebarHover       ffffff,100
 BrowserHover        ffffff,20
 BrowserIcon         666666
 BrowserSelected     ff55bb,40>44aaff,40
-TitlebarText        000000
+TitlebarText        FFFFFF
+Debug               ff0000
+Debug2              0000ff
 
 'IconColors
     44aaff
     ff55bb
     aaff44
     ff7744
+    7744ff
     ffffbb
     ddeeff
     ddeeff

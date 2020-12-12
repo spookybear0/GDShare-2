@@ -7,6 +7,8 @@ namespace gdtools_cpp {
             public Page(GDTWindow _w) {
                 this.Margin = Theme.Const.Page.Padding;
             }
+
+            public virtual void Load() {}
         }
 
         public class None : Page {

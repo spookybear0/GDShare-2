@@ -123,10 +123,14 @@ namespace gdtools_cpp {
             public static class Checkbox {
                 public static int Size = (int)(Text.Size * 1.5);
                 public static CornerRadius CornerRadius = new CornerRadius(BorderSize);
-                public static Thickness Margin = new Thickness(10, 0, 0, 0);
+                public static uint Margin = 10;
                 public static double TickRatio = 1.75;
             }
+            public static class Button {
+                public static Thickness Padding = new Thickness(15, 8, 15, 8);
+            }
             public static uint BorderSize = 5;
+            public static Thickness Margin = new Thickness(0, 0, 0, 10);
         }
 
         public static StyleObj ParseStyle(string _f) {
