@@ -1,0 +1,14 @@
+::GDTools Icon::
+
+.Size           512,512
+.Author         HJfod
+
+! First person
+Circle          134,160 ; 220:220
+Polyline        70,280 : 6,480
+Polyline        198,280 : 262,480
+
+! Second person
+Circle          378,160 ; 220:220
+Polyline        314,280 : 250,480
+Polyline        442,280 : 506,480

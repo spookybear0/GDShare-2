@@ -1,0 +1,12 @@
+::GDTools Icon::
+
+.Size           512,512
+.Author         HJfod
+
+! Rocket shell
+Circle          256,256  ; 256:480
+Polyline        96,480   : 128,360
+Polyline        416,480  : 384,360
+
+! Top dot
+Circle          256,256  ; 108:108

@@ -1,0 +1,10 @@
+::GDTools Icon::
+
+.Size           512,512
+.Author         HJfod
+
+! Sharing icon
+Polyline        448,96  : 64,256 : 340,416
+Circle<Fill>    448,96  ; 196:196
+Circle<Fill>    64,256  ; 144:144
+Circle<Fill>    340,416 ; 170:170

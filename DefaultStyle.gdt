@@ -1,0 +1,32 @@
+::GDTools Style::
+
+Name=Default Dark
+Author=HJfod
+
+    ! This is a comment
+
+BGDark              222222
+BGDarker            111111,230
+Dark                555555
+Light               777777
+Main                44aaff
+Secondary           ff55bb
+Text                ffffff
+ButtonBG            3377aa
+ButtonBGHover       4499cc
+TitlebarBG          44aaff,200>ff55bb,200
+TitlebarHover       ffffff,100
+BrowserHover        ffffff,20
+BrowserIcon         666666
+BrowserSelected     ff55bb,40>44aaff,40
+TitlebarText        000000
+
+'IconColors
+    44aaff
+    ff55bb
+    aaff44
+    ff7744
+    ffffbb
+    ddeeff
+    ddeeff
+'

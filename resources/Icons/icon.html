@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            canvas { background-color: #000; }
+            textarea { width: 800px; height: 200px; }
+        </style>
+    </head>
+    <body>
+        <canvas width=512 height=512></canvas>
+        <br>
+        <textarea></textarea>
+        <script>
+
+const c = document.getElementsByTagName('canvas')[0];
+const ctx = c.getContext('2d');
+
+function parse(str) {
+    ctx.clearRect(0, 0, c.width, c.height);
+
+    str.split('\n').forEach(s => {
+        if (!s.startsWith("!")) {
+            ctx.beginPath();
+
+            ctx.lineWidth = 80;
+            ctx.lineCap = "round";
+            //ctx.lineJoin = "round";
+            ctx.strokeStyle = '#fff';
+            
+            s.split(':').forEach((e, ix) => {
+                if (!ix)
+                    ctx.moveTo(
+                        parseInt(e.split(",")[0]),
+                        parseInt(e.split(",")[1])
+                    );
+                else
+                    ctx.lineTo(
+                        parseInt(e.split(",")[0]),
+                        parseInt(e.split(",")[1])
+                    );
+            });
+            ctx.stroke();
+        }
+    });
+}
+
+document.getElementsByTagName('textarea')[0].addEventListener('input', e => {
+    parse(document.getElementsByTagName('textarea')[0].value);
+});
+
+parse(document.getElementsByTagName('textarea')[0].value);
+        </script>
+    </body>
+</html>

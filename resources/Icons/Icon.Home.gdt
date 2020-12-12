@@ -1,0 +1,7 @@
+::GDTools Icon::
+
+.Size           512,512
+.Author         HJfod
+
+! This is a comment
+Polyline        256,32 : 32,256 : 256,480 : 480,256 : 256,256

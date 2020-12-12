@@ -1,0 +1,9 @@
+::GDTools Icon::
+
+.Size           512,512
+.Author         HJfod
+.Stroke         35
+
+! X
+Polyline        64,64 : 448,448
+Polyline        448,64 : 64,448
