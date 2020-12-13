@@ -13,6 +13,7 @@ Light               777777
 Main                44aaff
 Secondary           ff55bb
 Text                ffffff
+TextDark            aaaaaa
 ButtonBG            3377aa
 ButtonBGHover       4499cc
 TitlebarBG          44aaff,200>ff55bb,200

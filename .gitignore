@@ -2,3 +2,6 @@ bin/
 obj/
 user.gdt
 .vscode/
+cpp/GDShare.exp
+cpp/GDShare.lib
+cpp/GDShare.dll

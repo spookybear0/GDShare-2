@@ -207,7 +207,7 @@ namespace gdtools_cpp {
             string[] lines = System.IO.File.ReadAllLines($"resources\\Icons\\Icon.{_name}.{Settings.Ext.Data}");
 
             if (lines[0] != "::GDTools Icon::")
-                return null;
+                lines = System.IO.File.ReadAllLines($"resources\\Icons\\Icon.Error.{Settings.Ext.Data}");
 
             Brush col = _col == null ? Theme.Colors.Text : _col;
             uint thick = _thick == 0 ? Theme.Const.Icon.Thickness : _thick;

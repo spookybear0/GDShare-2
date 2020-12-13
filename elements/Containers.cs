@@ -103,9 +103,13 @@ namespace gdtools_cpp {
             }
         }
 
-        public class Generic : Grid {
-            public Generic() {
-                this.HorizontalAlignment = Settings.Alignment;
+        public class Centered : StackPanel {
+            public Centered(UIElement[] _elem) {
+                this.HorizontalAlignment = HorizontalAlignment.Center;
+                this.Orientation = Orientation.Vertical;
+
+                foreach (UIElement e in _elem)
+                    this.Children.Add(e);
             }
         }
     }

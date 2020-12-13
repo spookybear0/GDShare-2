@@ -1,0 +1,8 @@
+::GDTools Icon::
+
+.Size           512,512
+.Author         HJfod
+
+Polyline        32,32 : 480,32 : 480,480 : 32,480 : 32,32
+Polyline        256,154 : 256,260
+Circle<Fill>    256,360 ; 70:70

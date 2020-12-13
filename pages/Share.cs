@@ -5,18 +5,30 @@ using System.Windows.Controls;
 namespace gdtools_cpp {
     namespace Pages {
         public class Sharing : Page {
-            private Elem.Generic LoadedPage;
-            private Elem.Generic UnloadedPage;
+            private Elem.Organized LoadedPage;
+            private Elem.Centered UnloadedPage;
 
             public Sharing(GDTWindow _w) : base(_w) {
-                LoadedPage = new Elem.Generic();
-                UnloadedPage = new Elem.Generic();
+                UnloadedPage = new Elem.Centered(new UIElement[] {
+                    new Elem.Header(new UIElement[] {
+                        Theme.LoadIcon("Cog"),
+                        new Elem.Pad(),
+                        new Elem.Text("Decode")
+                    }),
+                    new Elem.Pad(),
+                    new Elem.Text("You need to decode your CCLocalLevels.dat file to use Sharing!", 0, Theme.Colors.TextDark),
+                    new Elem.Text("Decoding may take a while.", 0, Theme.Colors.TextDark),
+                    new Elem.Pad(),
+                    new Elem.But("Decode", default(Size), (s, e) => {
+                        Console.WriteLine(GDShare.DecodeCCFile("LocalLevels").Substring(0, 100));
+                    })
+                });
+
+                LoadedPage = new Elem.Organized(new UIElement[] {
+                    new Elem.Text("Sharing")
+                });
 
                 LoadedPage.Visibility = Visibility.Collapsed;
-
-                UnloadedPage.Children.Add(new Elem.Text("You need to decode CCLocalLevels to use Sharing!"));
-
-                LoadedPage.Children.Add(new Elem.Text("Sharing"));
 
                 this.Children.Add(UnloadedPage);
                 this.Children.Add(LoadedPage);
