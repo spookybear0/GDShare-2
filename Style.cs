@@ -129,6 +129,10 @@ namespace gdtools_cpp {
             public static class Button {
                 public static Thickness Padding = new Thickness(15, 8, 15, 8);
             }
+            public static class ProgressBar {
+                public static uint Height = 60;
+                public static Thickness Padding = new Thickness(22);
+            }
             public static uint BorderSize = 5;
             public static Thickness Margin = new Thickness(0, 0, 0, 10);
         }

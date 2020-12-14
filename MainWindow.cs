@@ -9,8 +9,10 @@ namespace gdtools_cpp {
     public class gWindowContent {
         public Elem.Global Global;
         public GDTWindow Window;
+        public Elem.ProgressBar ProgressBar;
 
         public gWindowContent() {
+            this.ProgressBar = new Elem.ProgressBar();
             this.Global = new Elem.Global();
         }
 
@@ -58,10 +60,25 @@ namespace gdtools_cpp {
 
             Elem.Content c = (Elem.Content)this.Global.Add(new Elem.Content());
             Elem.Browser b = (Elem.Browser)this.Global.Add(new Elem.Browser());
+            this.Global.Add(this.ProgressBar);
 
             StackPanel bTop = new StackPanel();
             StackPanel bBot = new StackPanel();
             bBot.VerticalAlignment = VerticalAlignment.Bottom;
+
+            _w.AllowDrop = true;
+
+            _w.DragEnter += (s, e) => {
+            };
+
+            _w.Drop += (s, e) => {
+                if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
+                    string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                    foreach (string file in files)
+                        Console.WriteLine(file);
+                }
+            };
 
             b.Children.Add(bBot);
             b.Children.Add(bTop);

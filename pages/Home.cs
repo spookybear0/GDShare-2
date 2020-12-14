@@ -9,7 +9,9 @@ namespace gdtools_cpp {
                 this.Children.Add(new Elem.Organized(new UIElement[] {
                     new Elem.Text("swag home page"),
                     new Elem.But("Decode", default(Size), (s, e) => {
-                        gdtools_cpp.Settings.DecodedCCLocalLevels = true;
+                        for (int i = 0; i < 100; i += 20) {
+                            _w.Contents.ProgressBar.SetProgress((ushort)i);
+                        }
                     })
                 }));
             }

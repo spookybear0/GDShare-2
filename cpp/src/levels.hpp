@@ -73,20 +73,33 @@ namespace gd {
             return std::string(buffer.data(), buffer.data() + buffer.size());
         }
 
-        std::string DecodeCCLocalLevels() {
-            std::string CCPATH = decode::GetCCPath("LocalLevels");
+        std::string DecodeCCFile(const char* _name, void (*_prog)(unsigned short) = NULL) {
+            if (_prog != NULL) _prog(0);
+
+            std::string CCPATH = decode::GetCCPath(_name);
             std::vector<uint8_t> CCCONTENTS = decode::readf(CCPATH);
+
+            if (_prog != NULL) _prog(25);
 
             std::string c = methods::fread(CCPATH);
             if (c._Starts_with("<?xml version=\"1.0\"?>")) {
-                decode::decoded_data.parse<0>(methods::stc(c));
+                if (_prog != NULL) _prog(100);
+
                 return c;
             }
 
             DecodeXOR(CCCONTENTS, 11);
+
+            if (_prog != NULL) _prog(50);
+
             auto XOR = std::string(CCCONTENTS.begin(), CCCONTENTS.end());
             std::vector<uint8_t> B64 = DecodeBase64(XOR);
+
+            if (_prog != NULL) _prog(75);
+
             std::string ZLIB = DecompressGZip(B64);
+
+            if (_prog != NULL) _prog(100);
 
             return ZLIB;
         }
@@ -97,8 +110,8 @@ namespace gd {
             return true;
         }
 
-        rapidxml::xml_document<>* GetCCLocalLevels() {
-            decoded_data.parse<0>(methods::stc(DecodeCCLocalLevels()));
+        rapidxml::xml_document<>* GetCCFileAsXML(const char* _which) {
+            decoded_data.parse<0>(methods::stc(DecodeCCFile(_which)));
             return &decoded_data;
         }
 
@@ -110,7 +123,7 @@ namespace gd {
     namespace levels {
         void LoadLevels() {
             if (decode::levels.size() == 0) {
-                gd::decode::GetCCLocalLevels();
+                gd::decode::GetCCFileAsXML("LocalLevels");
 
                 rapidxml::xml_node<>* d = decode::decoded_data.first_node("plist")->first_node("dict")->first_node("d");
                 rapidxml::xml_node<>* fs = NULL;
@@ -209,7 +222,7 @@ namespace gd {
                 lvl = methods::fread(_path);
             else lvl = _lvl;
 
-            gd::decode::GetCCLocalLevels();
+            gd::decode::GetCCFileAsXML("LocalLevels");
 
             rapidxml::xml_node<>* d = decode::decoded_data.first_node("plist")->first_node("dict")->first_node("d");
             rapidxml::xml_node<>* fs = NULL;
