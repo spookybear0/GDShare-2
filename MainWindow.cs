@@ -67,12 +67,12 @@ namespace gdtools_cpp {
             StackPanel bBot = new StackPanel();
             bBot.VerticalAlignment = VerticalAlignment.Bottom;
 
-            _w.AllowDrop = true;
+            this.Global.AllowDrop = true;
 
-            _w.DragEnter += (s, e) => o.Show();
-            _w.DragLeave += (s, e) => o.Hide();
+            this.Global.DragEnter += (s, e) => o.Show((string[])e.Data.GetData(DataFormats.FileDrop));
+            this.Global.DragLeave += (s, e) => o.Hide();
 
-            _w.Drop += (s, e) => {
+            this.Global.Drop += (s, e) => {
                 if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
                     string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 

@@ -14,6 +14,7 @@ Light               777777
 Success             44ffaa
 Failure             ff4466
 Overlay             44ffaa,80
+OverlayError        ff4455,80
 Main                44aaff
 Secondary           ff55bb
 Text                ffffff

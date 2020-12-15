@@ -16,6 +16,13 @@ namespace gdtools_cpp {
 
         public static class Ext {
             public static string Data = "gdt";
+            public static string LevelStandard = "gmd2";
+            public static string LevelCompressed = "gmdc";
+            public static string LvlShare = "lvl";
+            public static string GDShare = "gmd";
+            public static string[] LevelList = new string[] {
+                LevelStandard, LevelCompressed, LvlShare, GDShare
+            };
         }
     }
 
