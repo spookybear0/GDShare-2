@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using System.Windows.Threading;
 
 namespace gdtools_cpp {
     public class Userdata {
@@ -27,7 +28,7 @@ namespace gdtools_cpp {
             if (System.IO.File.Exists(UserdataPath)) {
                 string data = System.IO.File.ReadAllText(UserdataPath);
                 
-                if (data.StartsWith("::GDTools User::\n")) {
+                if (data.StartsWith($"{Theme.GetGDTFileHead("User")}\n")) {
                     Data = JsonSerializer.Deserialize<DataT>(data.Substring(data.IndexOf("\n") + 1));
                     Loaded = true;
 
@@ -37,7 +38,7 @@ namespace gdtools_cpp {
         }
 
         public void SaveData() {
-            System.IO.File.WriteAllText(UserdataPath, $"::GDTools User::\n{JsonSerializer.Serialize(Data)}");
+            System.IO.File.WriteAllText(UserdataPath, $"{Theme.GetGDTFileHead("User")}\n{JsonSerializer.Serialize(Data)}");
         }
     }
 
@@ -54,6 +55,17 @@ namespace gdtools_cpp {
         public float FadeMove = .5f;
         public EventHandler eDrawFade;
         public gWindowContent Contents;
+
+        public static void AllowUIToUpdate() {
+            DispatcherFrame frame = new DispatcherFrame();
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Render, new DispatcherOperationCallback(parameter => {
+                frame.Continue = false;
+                return null;
+            }), null);
+
+            Dispatcher.PushFrame(frame);
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate { }));
+        }
 
         public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject {
             if (depObj != null)
@@ -89,10 +101,10 @@ namespace gdtools_cpp {
                 this.WindowStyle = WindowStyle.None;
                 this.AllowsTransparency = true;
                 this.ResizeMode = ResizeMode.CanResizeWithGrip;
+                this.SizeChanged += (s, e) =>
+                    this.BorderThickness = this.WindowState == WindowState.Maximized ? new Thickness(7) : new Thickness(0);
             }
             this.Background = new SolidColorBrush(Colors.Transparent);
-            this.SizeChanged += (s, e) =>
-                this.BorderThickness = this.WindowState == WindowState.Maximized ? new Thickness(7) : new Thickness(0);
 
             BitmapImage bi3 = new BitmapImage();
             bi3.BeginInit();

@@ -43,8 +43,7 @@ namespace methods {
     }
 
     bool fexists(std::string _path) {
-        struct stat info;
-        return !(stat(_path.c_str(), &info ) != 0);
+        return GetFileAttributesW((LPCWSTR)_path.c_str()) != INVALID_FILE_ATTRIBUTES;
     }
 
     std::string workdir() {
@@ -179,6 +178,23 @@ namespace methods {
 
     std::string unspace(std::string _str) {
         return std::regex_replace(_str, std::regex("^ +| +$|( ) +"), "$1");
+    }
+
+    namespace perf {
+        std::chrono::time_point<std::chrono::high_resolution_clock> perf_;
+
+        void start() {
+            perf_ = std::chrono::high_resolution_clock().now();
+        }
+
+        int end() {
+            auto end_ = std::chrono::high_resolution_clock().now();
+            return std::chrono::duration_cast<std::chrono::milliseconds>(end_ - perf_).count();
+        }
+
+        std::string log() {
+            return std::to_string(end()) + "ms";
+        }
     }
 }
 

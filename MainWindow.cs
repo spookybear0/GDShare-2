@@ -9,10 +9,10 @@ namespace gdtools_cpp {
     public class gWindowContent {
         public Elem.Global Global;
         public GDTWindow Window;
-        public Elem.ProgressBar ProgressBar;
+        public Elem.ProgressBars ProgressBars;
 
         public gWindowContent() {
-            this.ProgressBar = new Elem.ProgressBar();
+            this.ProgressBars = new Elem.ProgressBars();
             this.Global = new Elem.Global();
         }
 
@@ -60,7 +60,8 @@ namespace gdtools_cpp {
 
             Elem.Content c = (Elem.Content)this.Global.Add(new Elem.Content());
             Elem.Browser b = (Elem.Browser)this.Global.Add(new Elem.Browser());
-            this.Global.Add(this.ProgressBar);
+            this.Global.Add(this.ProgressBars);
+            Elem.Overlay o = (Elem.Overlay)this.Global.Add(new Elem.Overlay());
 
             StackPanel bTop = new StackPanel();
             StackPanel bBot = new StackPanel();
@@ -68,8 +69,8 @@ namespace gdtools_cpp {
 
             _w.AllowDrop = true;
 
-            _w.DragEnter += (s, e) => {
-            };
+            _w.DragEnter += (s, e) => o.Show();
+            _w.DragLeave += (s, e) => o.Hide();
 
             _w.Drop += (s, e) => {
                 if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
@@ -78,6 +79,7 @@ namespace gdtools_cpp {
                     foreach (string file in files)
                         Console.WriteLine(file);
                 }
+                o.Hide();
             };
 
             b.Children.Add(bBot);

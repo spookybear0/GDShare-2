@@ -11,6 +11,9 @@ Dark                555555
 Darker              333333
 Darkest             111111
 Light               777777
+Success             44ffaa
+Failure             ff4466
+Overlay             44ffaa,80
 Main                44aaff
 Secondary           ff55bb
 Text                ffffff

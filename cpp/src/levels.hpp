@@ -73,33 +73,35 @@ namespace gd {
             return std::string(buffer.data(), buffer.data() + buffer.size());
         }
 
-        std::string DecodeCCFile(const char* _name, void (*_prog)(unsigned short) = NULL) {
-            if (_prog != NULL) _prog(0);
+        std::string DecodeCCFile(const char* _name, void (*_prog)(unsigned short, LPCSTR) = NULL) {
+            methods::perf::start();
+
+            if (_prog != NULL) _prog(0, "Reading file...");
 
             std::string CCPATH = decode::GetCCPath(_name);
             std::vector<uint8_t> CCCONTENTS = decode::readf(CCPATH);
 
-            if (_prog != NULL) _prog(25);
-
             std::string c = methods::fread(CCPATH);
             if (c._Starts_with("<?xml version=\"1.0\"?>")) {
-                if (_prog != NULL) _prog(100);
+                if (_prog != NULL) _prog(100, "Finished!");
 
                 return c;
             }
 
+            if (_prog != NULL) _prog(25, "Decoding XOR...");
+
             DecodeXOR(CCCONTENTS, 11);
 
-            if (_prog != NULL) _prog(50);
+            if (_prog != NULL) _prog(50, "Decoding Base64...");
 
             auto XOR = std::string(CCCONTENTS.begin(), CCCONTENTS.end());
             std::vector<uint8_t> B64 = DecodeBase64(XOR);
 
-            if (_prog != NULL) _prog(75);
+            if (_prog != NULL) _prog(75, "Decompressing GZip...");
 
             std::string ZLIB = DecompressGZip(B64);
 
-            if (_prog != NULL) _prog(100);
+            if (_prog != NULL) _prog(100, ("Finished in " + methods::perf::log() + " !").c_str());
 
             return ZLIB;
         }

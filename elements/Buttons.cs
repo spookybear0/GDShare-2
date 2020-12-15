@@ -76,6 +76,14 @@ namespace gdtools_cpp {
                 this.Style = this.__Style;
                 this.Margin = Theme.Const.Margin;
             }
+
+            public void Disable(string _txt = null) {
+                this.IsEnabled = false;
+                this.Background = Theme.Colors.Dark;
+                this.Foreground = Theme.Colors.TextDark;
+                if (_txt != null)
+                    this.Content = _txt;
+            }
         }
         
         public class BrowserBut : ButtonStyled {

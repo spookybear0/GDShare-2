@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
 
 /*
 private void LoadThemes() {
@@ -96,6 +97,8 @@ namespace gdtools_cpp {
         public static dynamic Colors = new ExpandoObject();
         public static dynamic ColorArrays = new ExpandoObject();
         public static List<StyleObj> Styles = new List<StyleObj> ();
+        public static List<string> LoadingMessage = new List<string> ();
+        public static string ResourceFolder = "resources";
 
         public static class Const {
             public static class Titlebar {
@@ -130,8 +133,8 @@ namespace gdtools_cpp {
                 public static Thickness Padding = new Thickness(15, 8, 15, 8);
             }
             public static class ProgressBar {
-                public static uint Height = 60;
-                public static Thickness Padding = new Thickness(22);
+                public static uint Height = 45;
+                public static Thickness Padding = new Thickness(20);
             }
             public static uint BorderSize = 5;
             public static Thickness Margin = new Thickness(0, 0, 0, 10);
@@ -140,7 +143,7 @@ namespace gdtools_cpp {
         public static StyleObj ParseStyle(string _f) {
             string[] lines = System.IO.File.ReadAllLines(_f);
 
-            if (lines[0] != "::GDTools Style::")
+            if (lines[0] != GetGDTFileHead("Style"))
                 return null;
 
             StyleObj s = new StyleObj(lines);
@@ -190,9 +193,21 @@ namespace gdtools_cpp {
         }
 
         public static void Init() {
-            Console.WriteLine("Loading styles...");
+            Console.WriteLine("Loading app data...");
 
             LoadStyle(ParseStyle($"DefaultStyle.{Settings.Ext.Data}"));
+            
+            bool LoadedMsgs = true;
+            if (System.IO.File.Exists($"{ResourceFolder}/Loading.gdt")) {
+                string[] ss = System.IO.File.ReadAllLines($"{ResourceFolder}/Loading.gdt");
+                if (ss[0] == GetGDTFileHead("Loading"))
+                    foreach (string s in ss.Where(s => s != GetGDTFileHead("Loading") && !String.IsNullOrWhiteSpace(s)))
+                        LoadingMessage.Add($"{s.Trim()}...");
+                else LoadedMsgs = false;
+            } else LoadedMsgs = false;
+
+            if (!LoadedMsgs)
+                LoadingMessage.Add("Loading...");
         }
 
         public static void UpdateCanvasColor(Canvas _c, Brush _col) {
@@ -208,10 +223,10 @@ namespace gdtools_cpp {
         }
 
         public static Canvas LoadIcon(string _name, Brush _col = null, uint _thick = 0) {
-            string[] lines = System.IO.File.ReadAllLines($"resources\\Icons\\Icon.{_name}.{Settings.Ext.Data}");
+            string[] lines = System.IO.File.ReadAllLines($"{ResourceFolder}\\Icons\\Icon.{_name}.{Settings.Ext.Data}");
 
-            if (lines[0] != "::GDTools Icon::")
-                lines = System.IO.File.ReadAllLines($"resources\\Icons\\Icon.Error.{Settings.Ext.Data}");
+            if (lines[0] != GetGDTFileHead("Icon"))
+                lines = System.IO.File.ReadAllLines($"{ResourceFolder}\\Icons\\Icon.Error.{Settings.Ext.Data}");
 
             Brush col = _col == null ? Theme.Colors.Text : _col;
             uint thick = _thick == 0 ? Theme.Const.Icon.Thickness : _thick;
@@ -314,6 +329,14 @@ namespace gdtools_cpp {
             }
 
             return c;
+        }
+    
+        public static string GetLoadingMessage() {
+            return LoadingMessage[new Random().Next(LoadingMessage.Count)];
+        }
+    
+        public static string GetGDTFileHead(string _gdt) {
+            return $"::GDTools {_gdt}::";
         }
     }
 }
