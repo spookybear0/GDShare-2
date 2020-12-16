@@ -46,7 +46,7 @@ namespace gdtools_cpp {
                         0, Theme.Const.Dual.Height / 2.1,
                         Theme.Const.Dual.Height / 2.1, 0
                     );
-                    this.Color = _side == 0 ? Theme.Colors.Main : Theme.Colors.Secondary;
+                    this.Color = _side == 0 ? Theme.Colors.Main : Theme.Colors.Main;
 
                     Elem.Text text = new Elem.Text(_text);
                     text.HorizontalAlignment = HorizontalAlignment.Center;
@@ -84,7 +84,7 @@ namespace gdtools_cpp {
                 this.BorderThickness = new Thickness(Theme.Const.Dual.Border);
                 this.BorderBrush = Theme.GenerateTwoColorBrush (
                     ((SolidColorBrush)Theme.Colors.Main).Color,
-                    ((SolidColorBrush)Theme.Colors.Secondary).Color,
+                    ((SolidColorBrush)Theme.Colors.Main).Color,
                     .5
                 );
 

@@ -131,7 +131,7 @@ namespace gdtools_cpp {
             }
             public static class Dual {
                 public static uint Width = 450;
-                public static uint Height = 40;
+                public static uint Height = 30;
                 public static uint Border = 3;
             }
             public static class Select {
@@ -150,7 +150,7 @@ namespace gdtools_cpp {
             public static class Input {
                 public static uint Height = 50;
                 public static Thickness Padding = new Thickness(10);
-                public static CornerRadius Corner = new CornerRadius(8);
+                public static CornerRadius Corner = new CornerRadius(15);
             }
             public static class Button {
                 public static Thickness Padding = new Thickness(15, 8, 15, 8);

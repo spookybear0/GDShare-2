@@ -46,9 +46,11 @@ namespace gdtools_cpp {
                         foreach (Elem.Shortcut sc in GDTWindow.FindVisualChildren<Elem.Shortcut>(_w))
                             sc.Visibility = e.Selected ? Visibility.Visible : Visibility.Collapsed;
                     }),
+                    new Elem.Newline(),
                     theme,
                     new Elem.But("Apply theme", default(Size), (s, e) => {
-                        App.Userdata.Data.Theme = theme.Text;
+                        App.Userdata.Data.Theme = theme.Inp.Text;
+                        App.Reload();
                     })
                 }));
             }
