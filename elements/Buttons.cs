@@ -11,10 +11,21 @@ namespace gdtools_cpp {
                 public bool Selected;
 
                 public CheckEventArgs(bool _sel) {
-                    Selected = _sel;
+                    this.Selected = _sel;
                 }
             }
             public delegate void CheckEventHandler(object sender, CheckEventArgs e);
+
+            public class OptionSelectEventArgs : EventArgs {
+                public uint ID;
+                public string Text;
+                
+                public OptionSelectEventArgs(uint _ID, string _Text) {
+                    this.ID = _ID;
+                    this.Text = _Text;
+                }
+            }
+            public delegate void OptionSelectEventHandler(object sender, OptionSelectEventArgs e);
         }
 
         public class ButtonStyled : Button {
@@ -283,15 +294,6 @@ namespace gdtools_cpp {
             public Brush TGHover = Theme.Colors.FailureHover;
             public string text;
             public string toggledText;
-
-            public class CheckEventArgs : EventArgs {
-                public bool Selected;
-
-                public CheckEventArgs(bool _sel) {
-                    Selected = _sel;
-                }
-            }
-            public delegate void CheckEventHandler(object sender, CheckEventArgs e);
 
             public void Tog(bool _sel) {
                 this.Background = _sel ? this.TGHover : this.BGHover;

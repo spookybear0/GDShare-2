@@ -17,6 +17,7 @@ Failure             ff4466
 FailureHover        ff7799
 Overlay             44ffaa,80
 OverlayError        ff4455,80
+OptionHover         ffffff,50
 Main                44aaff
 Secondary           ff55bb
 Text                ffffff

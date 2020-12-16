@@ -1,9 +1,9 @@
 using System;
-using System.Linq;
 using System.Windows;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+using Microsoft.Win32;
+using System.Collections.Generic;
+using System.IO;
 
 namespace gdtools_cpp {
     namespace Pages {
@@ -49,15 +49,58 @@ namespace gdtools_cpp {
                 });
 
                 GDShare.GetLevels(GDShare.DecodedCCData, lvls => {
-                    Console.WriteLine(lvls[1]);
+                    GDShare.DecodedLevels = lvls.Split(";");
                 });
 
+                Elem.Select LevelSelect = new Elem.Select(
+                    "Select Level", GDShare.DecodedLevels, true, 10
+                );
+
                 LoadedPage = new Elem.Organized(new UIElement[] {
-                    new Elem.Text("Sharing"),
-                    new Elem.Select(new string[] {
-                        "epic",
-                        "awesome",
-                        "stupid"
+                    LevelSelect,
+                    new Elem.Pad(),
+                    new Elem.Search(LevelSelect),
+                    new Elem.Pad(),
+                    new Elem.But("Export", default(Size), (s, e) => {
+                        Elem.ProgressBar pb = _w.Contents.ProgressBars.AddBar();
+                        SaveFileDialog opf = new SaveFileDialog();
+
+                        List<string> exports = LevelSelect.GetSelection();
+
+                        if (exports.Count > 1) {
+                            opf.Filter = Settings.Ext.ExportFilter;
+                            opf.Title = "Export Levels";
+                            opf.FileName = "Select Folder to Export to!";
+                            opf.RestoreDirectory = true;
+                            
+                            if ((bool)opf.ShowDialog()) {
+                                string dpath = Path.GetDirectoryName(opf.FileName);
+
+                                pb.SetProgress(0, "Exporting...");
+                                uint ix = 0;
+                                List<string> failed = new List<string> ();
+                                foreach (string exp in exports)
+                                    GDShare.ExportLevel(exp, $"{dpath}\\{exp}{opf.FileName.Substring(opf.FileName.LastIndexOf("."))}", s => {
+                                        if (s) pb.SetProgress((ushort)((++ix / exports.Count) * 100), $"Exported {exp} to {opf.FileName}");
+                                        else failed.Add(exp);
+                                    });
+                                if (failed.Count == 0)
+                                    pb.Finish("Exported all!");
+                                else pb.Fail($"Error exporting {String.Join(",", failed)}");
+                            }
+                        } else {
+                            opf.Filter = Settings.Ext.ExportFilter;
+                            opf.Title = "Export Level";
+                            opf.RestoreDirectory = true;
+                            opf.DefaultExt = Settings.Ext.LevelStandard;
+                            opf.FileName = exports[0];
+                            
+                            if ((bool)opf.ShowDialog())
+                                GDShare.ExportLevel(exports[0], opf.FileName, s => {
+                                    if (s) pb.Finish($"Exported to {opf.FileName}!");
+                                    else pb.Fail("Unknown error exporting");
+                                });
+                        }
                     })
                 });
 

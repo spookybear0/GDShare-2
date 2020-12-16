@@ -97,7 +97,7 @@ namespace gdtools_cpp {
                 new TabType { Name = "External", Icon = Theme.LoadIcon("Hack", Theme.Colors.BrowserIcon), Page = new Pages.None(_w) },
                 new TabType { IsBottomSplit = true },
                 new TabType { Name = "About", Icon = Theme.LoadIcon("About", Theme.Colors.BrowserIcon), Page = new Pages.None(_w) },
-                new TabType { Name = "Settings", Icon = Theme.LoadIcon("Cog", Theme.Colors.BrowserIcon), Page = new Pages.Settings(_w) }
+                new TabType { Name = "Settings", Icon = Theme.LoadIcon("Cog", Theme.Colors.BrowserIcon), Page = new Pages.SettingsPage(_w) }
             }) {
                 if (!t.IsBottomSplit) {
                     Elem.BrowserBut bt = new Elem.BrowserBut(t.Name, t.Icon, ix++, $"Ctrl + {ix}");

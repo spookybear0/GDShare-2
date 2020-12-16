@@ -131,7 +131,7 @@ namespace gd {
             return "";
         }
 
-        void LoadLevels(std::vector<std::string>* _names = NULL) {
+        void LoadLevels(std::string* _names = NULL) {
             if (decode::levels.size() == 0) {
                 gd::decode::GetCCFileAsXML("LocalLevels");
 
@@ -142,9 +142,8 @@ namespace gd {
                 for (rapidxml::xml_node<>* child = d->first_node(); child; child = child->next_sibling())
                     if (std::strcmp(child->name(), "d") == 0) {
                         LIST.push_back(child);
-                        if (_names != NULL) {
-                            _names->push_back(GetKey_X(child, "k2"));
-                        }
+                        if (_names != NULL)
+                            *_names += GetKey_X(child, "k2") + ";";
                     }
 
                 decode::levels = LIST;
@@ -201,15 +200,15 @@ namespace gd {
             return NULL;
         }
 
-        int ExportLevel_X(std::string _name, std::string* _res_path = NULL) {
+        int ExportLevel_X(std::string _name, std::string _path = "", std::string* _res_path = NULL) {
             std::cout << _name << std::endl;
             rapidxml::xml_node<>* lvl = GetLevel(_name);
             if (lvl == NULL) return err::LEVEL_NOT_FOUND;
-
-            if (!methods::fexists(methods::workdir() + "\\" + export_dir))
+            
+            if (_path == "" && !methods::fexists(methods::workdir() + "\\" + export_dir))
                 _mkdir((methods::workdir() + "\\" + export_dir).c_str());
 
-            std::string path = methods::workdir() + "\\" + export_dir + "\\" + methods::replace(_name, " ", "_") + ".gmd";
+            std::string path = _path != "" ? _path : methods::workdir() + "\\" + export_dir + "\\" + methods::replace(_name, " ", "_") + ".gmd";
 
             methods::fsave(path, methods::xts(GetLevel(_name)));
 

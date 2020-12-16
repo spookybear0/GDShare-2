@@ -6,8 +6,8 @@ using System.Windows.Controls;
 
 namespace gdtools_cpp {
     namespace Pages {
-        public class Settings : Page {
-            public Settings(GDTWindow _w) : base(_w) {
+        public class SettingsPage : Page {
+            public SettingsPage(GDTWindow _w) : base(_w) {
                 Elem.Highlight reload = new Elem.Highlight(Elem.Highlight.Types.Normal,
                     new Elem.Div(new UIElement[] {
                         new Elem.Text("A reload is required to apply these settings.", 0, Theme.Colors.Main),

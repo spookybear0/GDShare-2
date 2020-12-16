@@ -129,6 +129,24 @@ namespace gdtools_cpp {
                 public static uint Margin = 10;
                 public static double TickRatio = 1.75;
             }
+            public static class Select {
+                public static Thickness Padding = new Thickness(20, 0, 20, 20);
+                public static CornerRadius Corner = new CornerRadius(15);
+                public static uint DefaultItemShow = 5;
+                public static uint Width = 450;
+                public static uint TitleHeight = 50;
+
+                public static class Option {
+                    public static uint Height = 35;
+                    public static Thickness Padding = new Thickness(0);
+                    public static CornerRadius Corner = new CornerRadius(8);
+                }
+            }
+            public static class Input {
+                public static uint Height = 50;
+                public static Thickness Padding = new Thickness(10);
+                public static CornerRadius Corner = new CornerRadius(8);
+            }
             public static class Button {
                 public static Thickness Padding = new Thickness(15, 8, 15, 8);
             }

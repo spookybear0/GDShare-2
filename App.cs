@@ -24,6 +24,17 @@ namespace gdtools_cpp {
             public static string[] LevelList = new string[] {
                 LevelStandard, LevelCompressed, LvlShare, GDShare
             };
+            public static string LevelFilter =
+                $"Level Files|*.{String.Join(";*.", LevelList)}" +
+                "|GDShare 2 Files|*.gmd2;*.gmdc;*.gmd" +
+                "|GDShare Files|*.gmd" +
+                "|LvlShare Files|*.lvl" +
+                "|All Files|*.*";
+            public static string ExportFilter =
+                "Level|*.gmd2" +
+                "|Compressed Level|*.gmdc" +
+                "|GDShare|*.gmd" +
+                "|LvlShare|*.lvl";
         }
     }
 
