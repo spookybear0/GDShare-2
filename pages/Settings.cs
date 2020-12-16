@@ -16,6 +16,8 @@ namespace gdtools_cpp {
                 );
                 reload.Visibility = Visibility.Collapsed;
 
+                Elem.Input theme = new Elem.Input();
+
                 this.Children.Add(new Elem.Organized(new UIElement[] {
                     new Elem.Header(new UIElement[] {
                         Theme.LoadIcon("Cog"),
@@ -43,6 +45,10 @@ namespace gdtools_cpp {
                     new Elem.Toggle("Show Keyboard Shortcuts", "Hide Keyboard Shortcuts", gdtools_cpp.Settings.ShowShortcuts, (s, e) => {
                         foreach (Elem.Shortcut sc in GDTWindow.FindVisualChildren<Elem.Shortcut>(_w))
                             sc.Visibility = e.Selected ? Visibility.Visible : Visibility.Collapsed;
+                    }),
+                    theme,
+                    new Elem.But("Apply theme", default(Size), (s, e) => {
+                        App.Userdata.Data.Theme = theme.Text;
                     })
                 }));
             }

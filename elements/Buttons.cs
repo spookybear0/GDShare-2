@@ -335,5 +335,14 @@ namespace gdtools_cpp {
                 this.Style = this.__Style;
             }
         }
+    
+        public class Input : TextBox {
+            public Input() {
+                this.Foreground = Theme.Colors.Text;
+                this.CaretBrush = Theme.Colors.Text;
+                this.BorderThickness = new Thickness(0);
+                this.FontSize = Theme.Const.Input.Height / 3;
+            }
+        }
     }
 }

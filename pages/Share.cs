@@ -8,7 +8,7 @@ using System.IO;
 namespace gdtools_cpp {
     namespace Pages {
         public class Sharing : Page {
-            private Elem.Organized LoadedPage;
+            private Elem.Centered LoadedPage;
             private Elem.Centered UnloadedPage;
 
             public Sharing(GDTWindow _w) : base(_w) {
@@ -56,7 +56,7 @@ namespace gdtools_cpp {
                     "Select Level", GDShare.DecodedLevels, true, 10
                 );
 
-                LoadedPage = new Elem.Organized(new UIElement[] {
+                Elem.Organized ExportPage = new Elem.Organized(new UIElement[] {
                     LevelSelect,
                     new Elem.Pad(),
                     new Elem.Search(LevelSelect),
@@ -102,6 +102,29 @@ namespace gdtools_cpp {
                                 });
                         }
                     })
+                });
+
+                Elem.Organized ImportPage = new Elem.Organized(new UIElement[] {
+                    new Elem.Text("swag")
+                });
+
+                ExportPage.Visibility = Visibility.Visible;
+                ImportPage.Visibility = Visibility.Collapsed;
+
+                LoadedPage = new Elem.Centered(new UIElement[] {
+                    new Elem.Dual("Export", "Import", false, (s, e) => {
+                        if (e.Selected) {
+                            ExportPage.Visibility = Visibility.Visible;
+                            ImportPage.Visibility = Visibility.Collapsed;
+                        } else {
+                            ExportPage.Visibility = Visibility.Collapsed;
+                            ImportPage.Visibility = Visibility.Visible;
+                        }
+                    }),
+                    new Elem.Newline(),
+                    new Elem.Newline(),
+                    ExportPage,
+                    ImportPage
                 });
 
                 LoadedPage.Visibility = Visibility.Collapsed;

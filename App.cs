@@ -14,6 +14,7 @@ namespace gdtools_cpp {
         public static string AppName = "GDShare_2";
         public static HorizontalAlignment Alignment = HorizontalAlignment.Center;
         public static bool ShowShortcuts = false;
+        public static string ThemeName = $"DefaultStyle.{Ext.Data}";
 
         public static class Ext {
             public static string Data = "gdt";

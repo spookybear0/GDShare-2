@@ -3,7 +3,11 @@
 Name=Default Dark
 Author=HJfod
 
-    ! This is a comment
+ ! Jesus christ why are there so many colours
+ ! If you want to edit how the app looks, copy this file and change the colors to your liking
+ ! These are hex codes, you can include the # prefix if you want to
+ ! Format: <color>,<alpha>
+ ! the "color>color" thing means a linear gradient
 
 BGDark              222222
 BGDarker            111111,230
@@ -40,6 +44,7 @@ Debug2              0000ff
     ff55bb
     aaff44
     ff7744
+    44ff77
     7744ff
     ffffbb
     ddeeff
