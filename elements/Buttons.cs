@@ -6,6 +6,17 @@ using System.Windows.Media;
 
 namespace gdtools_cpp {
     namespace Elem {
+        public class Handlers {
+            public class CheckEventArgs : EventArgs {
+                public bool Selected;
+
+                public CheckEventArgs(bool _sel) {
+                    Selected = _sel;
+                }
+            }
+            public delegate void CheckEventHandler(object sender, CheckEventArgs e);
+        }
+
         public class ButtonStyled : Button {
             public Style __Style;
 
@@ -106,14 +117,17 @@ namespace gdtools_cpp {
                 this.Selected = _sel;
             }
 
-            public BrowserBut(string _text = "", Canvas _icon = null, int _c = 0) {
+            public BrowserBut(string _text = "", Canvas _icon = null, int _c = 0, string _scut = "") {
                 SolidColorBrush IconHover = Theme.ColorArrays.IconColors[_c];
 
                 text = new Elem.Text(_text, (uint)(Theme.Const.Browser.TabHeight / 2.5));
                 text.Margin = new Thickness(0);
                 if (_icon != null) {
-                    StackPanel p = new StackPanel();
-                    p.Orientation = Orientation.Horizontal;
+                    DockPanel p = new DockPanel();
+                    //p.Orientation = Orientation.Horizontal;
+                    p.LastChildFill = false;
+
+                    p.Width = Theme.Const.Browser.Width - Theme.Const.Button.Padding.Left - Theme.Const.Button.Padding.Right;
 
                     Viewbox v = new Viewbox();
                     v.Width = Theme.Const.Browser.TabHeight - Theme.Const.Browser.IconPadding;
@@ -125,6 +139,14 @@ namespace gdtools_cpp {
                     text.VerticalAlignment = VerticalAlignment.Center;
                     text.Padding = Theme.Const.Browser.TextPadding;
                     p.Children.Add(text);
+
+                    if (_scut != "") {
+                        Elem.Shortcut scut = new Elem.Shortcut(_scut, Theme.Const.Browser.TabHeight / 2);
+
+                        DockPanel.SetDock(scut, Dock.Right);
+
+                        p.Children.Add(scut);
+                    }
 
                     this.Content = p;
                 } else this.Content = text;
@@ -168,15 +190,6 @@ namespace gdtools_cpp {
             public bool Selected;
             public Border Box;
 
-            public class CheckEventArgs : EventArgs {
-                public bool Selected;
-
-                public CheckEventArgs(bool _sel) {
-                    Selected = _sel;
-                }
-            }
-            public delegate void CheckEventHandler(object sender, CheckEventArgs e);
-
             public static class C {
                 public static Brush Selected = Theme.Colors.ButtonBG;
                 public static Brush SelectedHover = Theme.Colors.ButtonBGHover;
@@ -184,7 +197,7 @@ namespace gdtools_cpp {
                 public static Brush BGHover = Theme.Colors.Light;
             }
 
-            public Checkbox(string _text = "", bool _select = false, CheckEventHandler _click = null) {
+            public Checkbox(string _text = "", bool _select = false, Handlers.CheckEventHandler _click = null) {
                 Grid contents = new Grid();
 
                 Box = new Border();
@@ -257,8 +270,67 @@ namespace gdtools_cpp {
                     }
 
                     if (_click != null)
-                        _click(s, new CheckEventArgs(this.Selected));
+                        _click(s, new Handlers.CheckEventArgs(this.Selected));
                 };
+            }
+        }
+    
+        public class Toggle : ButtonStyled {
+            public bool Toggled;
+            public Brush BG = Theme.Colors.Success;
+            public Brush BGHover = Theme.Colors.SuccessHover;
+            public Brush TG = Theme.Colors.Failure;
+            public Brush TGHover = Theme.Colors.FailureHover;
+            public string text;
+            public string toggledText;
+
+            public class CheckEventArgs : EventArgs {
+                public bool Selected;
+
+                public CheckEventArgs(bool _sel) {
+                    Selected = _sel;
+                }
+            }
+            public delegate void CheckEventHandler(object sender, CheckEventArgs e);
+
+            public void Tog(bool _sel) {
+                this.Background = _sel ? this.TGHover : this.BGHover;
+                this.Content = _sel ? this.toggledText : this.text;
+                this.Foreground = _sel ? Theme.Colors.Text : Theme.Colors.TextInvert;
+
+                this.Toggled = _sel;
+            }
+
+            public Toggle(string _ogtxt, string _tgtxt = "", bool _sel = false, Handlers.CheckEventHandler _click = null) {
+                this.Content = _ogtxt;
+                this.text = _ogtxt;
+                this.toggledText = _tgtxt == "" ? _ogtxt : _tgtxt;
+                this.Toggled = _sel;
+
+                this.Width = Theme.Const.Browser.Width;
+                this.Height = Theme.Const.Browser.TabHeight;
+                this.VerticalAlignment = VerticalAlignment.Top;
+
+                this.InitStyle(
+                    Theme.Colors.TextInvert,
+                    this.BG,
+                    this.BGHover,
+                    Theme.Const.BorderSize,
+                    HorizontalAlignment.Center,
+                    this.Padding
+                );
+
+                this.MouseEnter += (s, e) =>
+                    this.Background = this.Toggled ? this.TGHover : this.BGHover;
+                this.MouseLeave += (s, e) =>
+                    this.Background = this.Toggled ? this.TG : this.BG;
+                this.Click += (s, e) => {
+                    this.Tog(!this.Toggled);
+                    if (_click != null)
+                        _click(this, new Handlers.CheckEventArgs(this.Toggled));
+                };
+
+                this.Style = this.__Style;
             }
         }
     }

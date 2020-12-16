@@ -123,7 +123,15 @@ namespace gd {
     }
 
     namespace levels {
-        void LoadLevels() {
+        std::string GetKey_X(rapidxml::xml_node<>* _lvl, const char* _key) {
+            for (rapidxml::xml_node<>* child = _lvl->first_node(); child; child = child->next_sibling())
+                if (std::strcmp(child->name(), "k") == 0)
+                    if (std::strcmp(child->value(), _key) == 0)
+                        return child->next_sibling()->value();
+            return "";
+        }
+
+        void LoadLevels(std::vector<char*>* _names = NULL) {
             if (decode::levels.size() == 0) {
                 gd::decode::GetCCFileAsXML("LocalLevels");
 
@@ -132,19 +140,14 @@ namespace gd {
                 
                 std::vector<rapidxml::xml_node<>*> LIST = {};
                 for (rapidxml::xml_node<>* child = d->first_node(); child; child = child->next_sibling())
-                    if (std::strcmp(child->name(), "d") == 0)
+                    if (std::strcmp(child->name(), "d") == 0) {
                         LIST.push_back(child);
+                        if (_names != NULL)
+                            _names->push_back(methods::stc(GetKey_X(child, "k2")));
+                    }
 
                 decode::levels = LIST;
             }
-        }
-
-        std::string GetKey_X(rapidxml::xml_node<>* _lvl, const char* _key) {
-            for (rapidxml::xml_node<>* child = _lvl->first_node(); child; child = child->next_sibling())
-                if (std::strcmp(child->name(), "k") == 0)
-                    if (std::strcmp(child->value(), _key) == 0)
-                        return child->next_sibling()->value();
-            return "";
         }
 
         bool SetKey_X(rapidxml::xml_node<>* _lvl, const char* _key, const char* _val, const char* _type = "s") {

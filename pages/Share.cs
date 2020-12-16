@@ -48,8 +48,18 @@ namespace gdtools_cpp {
                     })
                 });
 
+                GDShare.GetLevels(GDShare.DecodedCCData, lvls => {
+                    foreach (string lvl in lvls)
+                        Console.WriteLine(lvl);
+                });
+
                 LoadedPage = new Elem.Organized(new UIElement[] {
-                    new Elem.Text("Sharing")
+                    new Elem.Text("Sharing"),
+                    new Elem.Select(new string[] {
+                        "epic",
+                        "awesome",
+                        "stupid"
+                    })
                 });
 
                 LoadedPage.Visibility = Visibility.Collapsed;

@@ -12,13 +12,17 @@ Darker              333333
 Darkest             111111
 Light               777777
 Success             44ffaa
+SuccessHover        77ffdd
 Failure             ff4466
+FailureHover        ff7799
 Overlay             44ffaa,80
 OverlayError        ff4455,80
 Main                44aaff
 Secondary           ff55bb
 Text                ffffff
 TextDark            aaaaaa
+TextInvert          000000
+Shortcut            44ffaa,50
 ButtonBG            3377aa
 ButtonBGHover       4499cc
 TitlebarBG          44aaff,200>ff55bb,200

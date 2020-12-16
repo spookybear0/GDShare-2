@@ -56,6 +56,17 @@ namespace gdtools_cpp {
         public EventHandler eDrawFade;
         public gWindowContent Contents;
 
+        public void AddShortcut(KeyGesture _k, ExecutedRoutedEventHandler _e) {
+            RoutedCommand c = new RoutedCommand();
+            c.InputGestures.Add(_k);
+
+            CommandBinding cc = new CommandBinding();
+            cc.Command = c;
+            cc.Executed += _e;
+
+            this.CommandBindings.Add(cc);
+        }
+
         public static void AllowUIToUpdate() {
             DispatcherFrame frame = new DispatcherFrame();
             Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Render, new DispatcherOperationCallback(parameter => {

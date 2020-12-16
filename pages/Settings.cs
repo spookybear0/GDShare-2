@@ -38,6 +38,11 @@ namespace gdtools_cpp {
                             App.Userdata.Data.CenterContent = e.Selected;
                             reload.Visibility = Visibility.Visible;
                         })
+                    }),
+                    new Elem.Pad(),
+                    new Elem.Toggle("Show Keyboard Shortcuts", "Hide Keyboard Shortcuts", gdtools_cpp.Settings.ShowShortcuts, (s, e) => {
+                        foreach (Elem.Shortcut sc in GDTWindow.FindVisualChildren<Elem.Shortcut>(_w))
+                            sc.Visibility = e.Selected ? Visibility.Visible : Visibility.Collapsed;
                     })
                 }));
             }

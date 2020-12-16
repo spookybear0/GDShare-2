@@ -100,7 +100,7 @@ namespace gdtools_cpp {
                 new TabType { Name = "Settings", Icon = Theme.LoadIcon("Cog", Theme.Colors.BrowserIcon), Page = new Pages.Settings(_w) }
             }) {
                 if (!t.IsBottomSplit) {
-                    Elem.BrowserBut bt = new Elem.BrowserBut(t.Name, t.Icon, ix++);
+                    Elem.BrowserBut bt = new Elem.BrowserBut(t.Name, t.Icon, ix++, $"Ctrl + {ix}");
 
                     bt.Click += (s, e) => {
                         foreach (Elem.BrowserBut b in GDTWindow.FindVisualChildren<Elem.BrowserBut>(_w))
@@ -112,6 +112,11 @@ namespace gdtools_cpp {
 
                         t.Page.Load();
                     };
+
+                    if (ix <= 9)
+                        _w.AddShortcut(new KeyGesture((Key)(34 + ix), ModifierKeys.Control), (s, e) => {
+                            bt.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                        });
 
                     targ.Children.Add(bt);
 

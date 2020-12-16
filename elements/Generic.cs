@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 namespace gdtools_cpp {
     namespace Elem {
         public class Text : TextBlock {
-            public Text(string _text = "", uint _size = 0, Brush _c = null) {
+            public Text(string _text = "", double _size = 0, Brush _c = null) {
                 this.Text = _text;
                 this.Foreground = _c == null ? Theme.Colors.Text : _c;
                 this.VerticalAlignment = VerticalAlignment.Center;
