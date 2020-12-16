@@ -131,7 +131,7 @@ namespace gd {
             return "";
         }
 
-        void LoadLevels(std::vector<char*>* _names = NULL) {
+        void LoadLevels(std::vector<std::string>* _names = NULL) {
             if (decode::levels.size() == 0) {
                 gd::decode::GetCCFileAsXML("LocalLevels");
 
@@ -142,8 +142,9 @@ namespace gd {
                 for (rapidxml::xml_node<>* child = d->first_node(); child; child = child->next_sibling())
                     if (std::strcmp(child->name(), "d") == 0) {
                         LIST.push_back(child);
-                        if (_names != NULL)
-                            _names->push_back(methods::stc(GetKey_X(child, "k2")));
+                        if (_names != NULL) {
+                            _names->push_back(GetKey_X(child, "k2"));
+                        }
                     }
 
                 decode::levels = LIST;

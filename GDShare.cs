@@ -7,7 +7,7 @@ namespace gdtools_cpp {
     public static class GDShare {
         public delegate void CCDataReturn(string s);
         public delegate void ProgressReturn(ushort p, string s);
-        public delegate void LevelReturn(string[] _lvls);
+        public delegate void LevelReturn(string[] lvls);
 
         public static string DecodedCCData = null;
         public static bool DecodedCCLocalLevels = false;

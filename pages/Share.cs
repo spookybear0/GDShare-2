@@ -49,8 +49,7 @@ namespace gdtools_cpp {
                 });
 
                 GDShare.GetLevels(GDShare.DecodedCCData, lvls => {
-                    foreach (string lvl in lvls)
-                        Console.WriteLine(lvl);
+                    Console.WriteLine(lvls[1]);
                 });
 
                 LoadedPage = new Elem.Organized(new UIElement[] {
