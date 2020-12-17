@@ -95,6 +95,7 @@ namespace gdtools_cpp {
                 new TabType { Name = "Collab", Icon = Theme.LoadIcon("Collab", Theme.Colors.BrowserIcon), Page = new Pages.None(_w) },
                 new TabType { Name = "Live", Icon = Theme.LoadIcon("Live", Theme.Colors.BrowserIcon), Page = new Pages.None(_w) },
                 new TabType { Name = "External", Icon = Theme.LoadIcon("Hack", Theme.Colors.BrowserIcon), Page = new Pages.None(_w) },
+                new TabType { Name = "Replay", Icon = Theme.LoadIcon("Backup", Theme.Colors.BrowserIcon), Page = new Pages.Replay(_w) }, // temp icon
                 new TabType { IsBottomSplit = true },
                 new TabType { Name = "About", Icon = Theme.LoadIcon("About", Theme.Colors.BrowserIcon), Page = new Pages.None(_w) },
                 new TabType { Name = "Settings", Icon = Theme.LoadIcon("Cog", Theme.Colors.BrowserIcon), Page = new Pages.SettingsPage(_w) }
