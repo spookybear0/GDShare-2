@@ -18,6 +18,7 @@ namespace gdtools_cpp {
             public bool IsTransparent { get; set; } = true;
             public bool SaveWindowState { get; set; } = true;
             public bool CenterContent { get; set; } = true;
+            public string Theme { get; set; } = Settings.ThemeName;
         }
 
         public DataT Data;
@@ -25,6 +26,8 @@ namespace gdtools_cpp {
         public string UserdataPath = Settings.UserdataName + "." + Settings.Ext.Data;
 
         public void LoadData() {
+            Console.WriteLine("Loading user data...");
+
             if (System.IO.File.Exists(UserdataPath)) {
                 string data = System.IO.File.ReadAllText(UserdataPath);
                 
@@ -33,6 +36,7 @@ namespace gdtools_cpp {
                     Loaded = true;
 
                     Settings.Alignment = Data.CenterContent ? HorizontalAlignment.Center : HorizontalAlignment.Left;
+                    Settings.ThemeName = Data.Theme;
                 } else Data = new DataT();
             } else Data = new DataT();
         }
