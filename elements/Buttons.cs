@@ -335,5 +335,29 @@ namespace gdtools_cpp {
                 this.Style = this.__Style;
             }
         }
+    
+        public class Input : Border {
+            public TextBox Inp;
+
+            public Input() {
+                this.Background = Theme.Colors.Darker;
+                this.Padding = Theme.Const.Input.Padding;
+                this.CornerRadius = Theme.Const.Input.Corner;
+                this.Width = Theme.Const.Select.Width;
+                this.Height = Theme.Const.Input.Height;
+
+                this.Inp = new TextBox();
+                this.Inp.HorizontalAlignment = HorizontalAlignment.Left;
+                this.Inp.VerticalAlignment = VerticalAlignment.Center;
+                this.Inp.Width = this.Width - Theme.Const.Input.Height;
+                this.Inp.Foreground = Theme.Colors.Text;
+                this.Inp.CaretBrush = Theme.Colors.Text;
+                this.Inp.Background = new SolidColorBrush(Colors.Transparent);
+                this.Inp.BorderThickness = new Thickness(0);
+                this.Inp.FontSize = Theme.Const.Input.Height / 3;
+
+                this.Child = this.Inp;
+            }
+        }
     }
 }

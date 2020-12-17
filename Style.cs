@@ -129,6 +129,11 @@ namespace gdtools_cpp {
                 public static uint Margin = 10;
                 public static double TickRatio = 1.75;
             }
+            public static class Dual {
+                public static uint Width = 450;
+                public static uint Height = 30;
+                public static uint Border = 3;
+            }
             public static class Select {
                 public static Thickness Padding = new Thickness(20, 0, 20, 20);
                 public static CornerRadius Corner = new CornerRadius(15);
@@ -145,7 +150,7 @@ namespace gdtools_cpp {
             public static class Input {
                 public static uint Height = 50;
                 public static Thickness Padding = new Thickness(10);
-                public static CornerRadius Corner = new CornerRadius(8);
+                public static CornerRadius Corner = new CornerRadius(15);
             }
             public static class Button {
                 public static Thickness Padding = new Thickness(15, 8, 15, 8);
@@ -156,6 +161,18 @@ namespace gdtools_cpp {
             }
             public static uint BorderSize = 5;
             public static Thickness Margin = new Thickness(0, 0, 0, 10);
+        }
+
+        public static Brush GenerateTwoColorBrush(Color color1, Color color2, double ratio) {
+            GradientStopCollection collection = new GradientStopCollection();
+
+            collection.Add(new GradientStop(color1, 0));
+            collection.Add(new GradientStop(color1, ratio));
+            collection.Add(new GradientStop(color2, ratio));
+            collection.Add(new GradientStop(color2, 1.0));
+
+            LinearGradientBrush brush = new LinearGradientBrush(collection);
+            return brush;
         }
 
         public static StyleObj ParseStyle(string _f) {
@@ -211,9 +228,7 @@ namespace gdtools_cpp {
         }
 
         public static void Init() {
-            Console.WriteLine("Loading app data...");
-
-            LoadStyle(ParseStyle($"DefaultStyle.{Settings.Ext.Data}"));
+            LoadStyle(ParseStyle(Settings.ThemeName));
             
             bool LoadedMsgs = true;
             if (System.IO.File.Exists($"{ResourceFolder}/Loading.gdt")) {
