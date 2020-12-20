@@ -26,7 +26,7 @@ namespace gdtools_cpp {
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
                 startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
                 startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/C py -c \"import os; os.chdir('D:\\code\\github\\GDShare-2\\python'); import replay; replay.export_replay()\""; // we need to change to correct dir
+                startInfo.Arguments = "/C py -c \"import os; os.chdir('D:\\code\\github\\GDShare-2\\replay'); import replay; replay.export_replay()\""; // we need to change to correct dir
                 process.StartInfo = startInfo;
                 process.Start();
             }

@@ -8,3 +8,4 @@ cpp/GDShare.dll
 Dark.gdt
 recent
 *.gdr
+__pycache__

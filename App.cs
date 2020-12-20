@@ -15,7 +15,7 @@ public class Replay {
         System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
         startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
         startInfo.FileName = "cmd.exe";
-        startInfo.Arguments = "/C py -c \"import os; os.chdir('D:\\code\\github\\GDShare-2\\python'); import replay; replay.start_replay_recorder()\""; // we need to change to correct dir
+        startInfo.Arguments = "/C py -c \"import os; os.chdir('D:\\code\\github\\GDShare-2\\replay'); import replay; replay.start_replay_recorder()\""; // we need to change to correct dir
         startInfo.RedirectStandardOutput = true;
         process.StartInfo = startInfo;
         process.Start();
