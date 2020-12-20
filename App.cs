@@ -4,9 +4,24 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Diagnostics;
 using System.Windows;
 using System.Runtime.InteropServices;
+
+public class Replay {
+    public static void startRecorder() {
+        System.Diagnostics.Process process = new System.Diagnostics.Process();
+        System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+        startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+        startInfo.FileName = "cmd.exe";
+        startInfo.Arguments = "/C py -c \"import os; os.chdir('D:\\code\\github\\GDShare-2\\python'); import replay; replay.start_replay_recorder()\""; // we need to change to correct dir
+        startInfo.RedirectStandardOutput = true;
+        process.StartInfo = startInfo;
+        process.Start();
+        Console.WriteLine(process.StandardOutput.ReadToEnd());
+    }
+}
 
 namespace gdtools_cpp {
     public static class Settings {
@@ -58,7 +73,9 @@ namespace gdtools_cpp {
         public static void Main(String[] args) {
             AttachConsole(-1);
             App app = new App();
-
+            Console.WriteLine("d");
+            Thread replayThread = new Thread(Replay.startRecorder);
+            replayThread.Start();
             Userdata.LoadData();
 
             Theme.Init();
